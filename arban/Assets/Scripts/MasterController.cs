@@ -26,6 +26,10 @@ public class MasterController : MonoBehaviour {
 	}
 
 	void LateUpdate() {
+		if (selected == null) {
+			return;
+		}
+
 		float pinchAmount = 0;
 		Quaternion desiredRotation = selected.transform.rotation;
 		

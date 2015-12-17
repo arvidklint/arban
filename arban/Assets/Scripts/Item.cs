@@ -7,10 +7,17 @@ public class Item : MonoBehaviour {
 	private Vector3 screenPoint;
 	private Vector3 offset;
 	MasterController mc;
+	Renderer rend;
+	Color transparent;
 
 	void Start() {
 		mc = transform.parent.GetComponent<MasterController>();
 		mc.addObserver(this);
+		rend = GetComponent<Renderer>();
+		Color c = rend.material.color;
+		transparent = new Color (c.r, c.g, c.b, 0.5f);
+//		Debug.Log (transparent);
+		rend.material.SetColor("_Color", transparent);
 	}
 	
 	void OnMouseDown() {
@@ -42,11 +49,10 @@ public class Item : MonoBehaviour {
 	}
 
 	void deselect() {
-		setItemSelectionColor(Color.white);
+		setItemSelectionColor(transparent);
 	}
 
 	void setItemSelectionColor(Color c) {
-		Renderer rend = GetComponent<Renderer>();
 		rend.material.SetColor ("_Color", c);
 	}
 }
