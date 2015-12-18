@@ -16,7 +16,11 @@ public class Item : MonoBehaviour {
 		mc.addObserver(this);
 		rend = GetComponent<Renderer>();
 		Color c = rend.material.color;
-		transparent = new Color (c.r, c.g, c.b, 0.4f);
+		if (mc.isSurface) {
+			transparent = new Color (0.35f, 0.84f, 0.86f, 0.4f);
+		} else {
+			transparent = new Color (c.r, c.g, c.b, c.a);
+		}
 //		Debug.Log (transparent);
 		rend.material.SetColor("_Color", transparent);
 	}
