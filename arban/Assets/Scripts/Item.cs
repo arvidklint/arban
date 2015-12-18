@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(MeshCollider))]
 
@@ -31,6 +32,7 @@ public class Item : MonoBehaviour {
 			Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
 			transform.position = curPosition;
+			RpcMove(transform.position);
 		}
 	}
 
@@ -54,5 +56,11 @@ public class Item : MonoBehaviour {
 
 	void setItemSelectionColor(Color c) {
 		rend.material.SetColor ("_Color", c);
+	}
+
+	[ClientRpc]
+	public void RpcMove(Vector3 _position) {
+		Debug.Log ("Rpc Move " + gameObject.name);
+		transform.position = _position;
 	}
 }
