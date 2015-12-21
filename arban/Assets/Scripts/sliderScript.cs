@@ -19,7 +19,8 @@ public class sliderScript : MonoBehaviour {
 	}
 	
 	void ValueChangeCheck () {
-		dirLight.GetComponent<Light> ().transform.eulerAngles = new Vector3 (lightSlider.value, dirLight.GetComponent<Light> ().transform.eulerAngles.y, dirLight.GetComponent<Light> ().transform.eulerAngles.z);
-		Debug.Log(lightSlider.value);
+		float sunY = lightSlider.value - 90;
+		float sunX = -0.007237f*(sunY*sunY)+58.62f;
+		dirLight.GetComponent<Light> ().transform.eulerAngles = new Vector3 (sunX, sunY, dirLight.GetComponent<Light> ().transform.eulerAngles.z);
 	}
 }
