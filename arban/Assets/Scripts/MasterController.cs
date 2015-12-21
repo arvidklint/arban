@@ -7,6 +7,7 @@ public class MasterController : MonoBehaviour {
 	public GameObject selected;
 	public ArrayList items = new ArrayList();
 	public bool isSurface;
+	NetworkClient client;
 
 	public void select(GameObject item) {
 		selected = item;
@@ -18,10 +19,13 @@ public class MasterController : MonoBehaviour {
 	}
 
 	public void notifyObservers(string msg) {
-
 		foreach (Item item in items) {
 			item.updateSelf(msg);
 		}
+	}
+
+	public void SetClient(NetworkClient _client) {
+		client = _client;
 	}
 
 	void LateUpdate() {
@@ -39,9 +43,12 @@ public class MasterController : MonoBehaviour {
 			rotationDeg.y = -DetectTouchMovement.turnAngleDelta;
 			desiredRotation *= Quaternion.Euler(rotationDeg*2);
 		}
-		
-		// not so sure those will work:
+
 		selected.transform.rotation = desiredRotation;
-		selected.transform.position += Vector3.forward * pinchAmount;
+		//selected.transform.position += Vector3.forward * pinchAmount;
+
+		if (client) {
+			client.RpcRotate(selected.name, selected.transform.rotation);
+		}
 	}
 }

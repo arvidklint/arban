@@ -55,6 +55,7 @@ public class NetworkClient : NetworkBehaviour {
 		foreach (Item item in items) {
 			item.SetClient(this);
 		}
+		parent.GetComponent<MasterController>().SetClient(this);
 	}
 
 	void FixedUpdate() {
@@ -63,7 +64,17 @@ public class NetworkClient : NetworkBehaviour {
 	
 	[ClientRpc]
 	public void RpcMove(string name, Vector3 _position) {
-		Debug.Log ("Rpc Move " + name);
+		//Debug.Log ("Rpc Move " + name);
+		if (!isSurface) {
+			_position *= 50f;
+			_position.x *= -1f;
+			_position.z *= -1f;
+		}
 		GameObject.Find(name).transform.position = _position;
+	}
+
+	[ClientRpc]
+	public void RpcRotate(string name, Quaternion _rotation) {
+		GameObject.Find(name).transform.rotation = _rotation;
 	}
 }
