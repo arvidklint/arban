@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(MeshCollider))]
 
@@ -11,6 +12,7 @@ public class Item : MonoBehaviour {
 	bool mouseHasMoved;
 	Renderer rend;
 	Color transparent;
+	NetworkClient client;
 
 	void Start() {
 		mc = transform.parent.GetComponent<MasterController>();
@@ -42,6 +44,10 @@ public class Item : MonoBehaviour {
 			Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
 			transform.position = curPosition;
+
+			if(client) {
+				client.RpcMove(this.name, transform.position);
+			}
 		}
 	}
 
@@ -65,6 +71,10 @@ public class Item : MonoBehaviour {
 
 	void markSelected() {
 		setItemSelectionColor(Color.blue);
+	}
+
+	public void SetClient(NetworkClient _client) {
+		client = _client;
 	}
 
 	void markDeselected() {

@@ -7,6 +7,7 @@ public class MasterController : MonoBehaviour {
 	public GameObject selected;
 	public ArrayList items = new ArrayList();
 	public bool isSurface;
+	NetworkClient client;
 
 	public void DeleteSelected() {
 //		Debug.Log ("Objekt i Items: ");
@@ -82,5 +83,13 @@ public class MasterController : MonoBehaviour {
 			selected.transform.rotation = desiredRotation;
 			selected.transform.position += Vector3.forward * pinchAmount;
 		}
+
+		if (client) {
+			client.RpcRotate(selected.name, selected.transform.rotation);
+		}
+	}
+
+	public void SetClient(NetworkClient _client) {
+		client = _client;
 	}
 }
