@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MasterController : MonoBehaviour {
-
+	
 	public GameObject selected;
 	public ArrayList items = new ArrayList();
+	public bool isSurface;
 
 	public void DeleteSelected() {
 //		Debug.Log ("Objekt i Items: ");

@@ -9,11 +9,21 @@ public class Item : MonoBehaviour {
 	MasterController mc;
 	Vector2 mouseDownPos;
 	bool mouseHasMoved;
+	Renderer rend;
+	Color transparent;
 
 	void Start() {
 		mc = transform.parent.GetComponent<MasterController>();
 		mc.addObserver(this);
-		Debug.Log ("Ett objekt är skapat "  + GetInstanceID());
+		rend = GetComponent<Renderer>();
+		Color c = rend.material.color;
+		if (mc.isSurface) {
+			transparent = new Color (0.35f, 0.84f, 0.86f, 0.4f);
+		} else {
+			transparent = new Color (c.r, c.g, c.b, c.a);
+		}
+//		Debug.Log (transparent);
+		rend.material.SetColor("_Color", transparent);
 	}
 	
 	void OnMouseDown() {
@@ -59,10 +69,12 @@ public class Item : MonoBehaviour {
 
 	void markDeselected() {
 		setItemSelectionColor(Color.white);
+
+	void deselect() {
+		setItemSelectionColor(transparent);
 	}
 	
 	void setItemSelectionColor(Color c) {
-		Renderer rend = GetComponent<Renderer>();
 		rend.material.SetColor ("_Color", c);
 	}
 }
