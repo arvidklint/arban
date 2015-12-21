@@ -19,12 +19,12 @@ public class NetworkClient : NetworkBehaviour {
 
 		// Find parent
 		if (isSurface) {
-			parent = (GameObject)GameObject.Find ("Map");
+			parent = (GameObject)GameObject.Find ("CitySurface");
 			if (parent == null) {
 				Debug.LogError ("Could not find parent Map!");
 			}
 		} else {
-			parent = (GameObject)GameObject.Find ("ImageTarget");
+			parent = (GameObject)GameObject.Find ("CityViewer");
 			if (parent == null) {
 				Debug.LogError ("Could not find parent ImageTarget!");
 			}
