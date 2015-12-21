@@ -35,7 +35,6 @@ public class MasterController : MonoBehaviour {
 		DetectTouchMovement.Calculate();
 		
 		if (Mathf.Abs(DetectTouchMovement.turnAngleDelta) > 0) { // rotate
-			Debug.Log("Is rotating");
 			Vector3 rotationDeg = Vector3.zero;
 			rotationDeg.y = -DetectTouchMovement.turnAngleDelta;
 			desiredRotation *= Quaternion.Euler(rotationDeg*2);
