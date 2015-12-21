@@ -10,7 +10,6 @@ public class MasterController : MonoBehaviour {
 
 	public void select(GameObject item) {
 		selected = item;
-		Debug.Log ("Nu happens grejer");
 		notifyObservers("select");
 	}
 
@@ -19,7 +18,6 @@ public class MasterController : MonoBehaviour {
 	}
 
 	public void notifyObservers(string msg) {
-		Debug.Log (items);
 
 		foreach (Item item in items) {
 			item.updateSelf(msg);

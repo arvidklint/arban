@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class NetworkClient : MonoBehaviour {
+public class NetworkClient : NetworkBehaviour {
 
 	public GameObject cityPrefabViewer;
 	public GameObject cityPrefabSurface;
@@ -30,6 +30,10 @@ public class NetworkClient : MonoBehaviour {
 			}
 		}
 
+		if (isLocalPlayer) {
+			FindMe();
+		}
+
 		
 
 //		if (isSurface) {
@@ -45,12 +49,21 @@ public class NetworkClient : MonoBehaviour {
 
 	}
 
-
+	void FindMe() {
+		Item[] items;
+		items = parent.GetComponentsInChildren<Item>();
+		foreach (Item item in items) {
+			item.SetClient(this);
+		}
+	}
 
 	void FixedUpdate() {
 //		Debug.Log (parent.transform.position);
 	}
-
-
-
+	
+	[ClientRpc]
+	public void RpcMove(string name, Vector3 _position) {
+		Debug.Log ("Rpc Move " + name);
+		GameObject.Find(name).transform.position = _position;
+	}
 }
