@@ -10,22 +10,18 @@ public class MasterController : MonoBehaviour {
 	NetworkClient client;
 
 	public void DeleteSelected() {
-//		Debug.Log ("Objekt i Items: ");
-//		foreach (Item item in items) {
-//			Debug.Log (item.GetInstanceID());
-//		}
-//		Debug.Log ("Tar bort: " + selected.GetInstanceID());
-//		items.Remove(selected);
-//		Debug.Log ("Objekt i Items: ");
-//		foreach (Item item in items) {
-//			Debug.Log (item.GetInstanceID());
-//		}
-//		Destroy (selected);
-//		Debug.Log ("DeleteSelected");
-	}
-
-	public void addObserver2(Item item) {
-		items.Add(item);
+		Debug.Log ("Objekt i Items: ");
+		foreach (Item item in items) {
+			Debug.Log (item.GetInstanceID());
+		}
+		Debug.Log ("Tar bort: " + selected.GetInstanceID());
+		items.Remove(selected);
+		Debug.Log ("Objekt i Items: ");
+		foreach (Item item in items) {
+			Debug.Log (item.GetInstanceID());
+		}
+		Destroy (selected);
+		Debug.Log ("DeleteSelected");
 	}
 
 	public void toggleSelect(GameObject item) {
