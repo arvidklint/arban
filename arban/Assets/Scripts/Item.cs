@@ -69,6 +69,7 @@ public class Item : MonoBehaviour {
 
 	void markDeselected() {
 		setItemSelectionColor(Color.white);
+	}
 
 	void deselect() {
 		setItemSelectionColor(transparent);
