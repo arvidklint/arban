@@ -35,24 +35,30 @@ public class Item : MonoBehaviour {
 	}
 	
 	void OnMouseDown() {
-		mouseDownPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+		if (mc.itemsClickable) {
+			mouseDownPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+			screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+			offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+		}
 	}
 
 	void OnMouseUp() {
-		mouseHasMoved = mc.compareMousePositions(mouseDownPos, new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-		if (!mouseHasMoved) mc.toggleSelect(this);
+		if (mc.itemsClickable) {
+			mouseHasMoved = mc.compareMousePositions(mouseDownPos, new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+			if (!mouseHasMoved) mc.toggleSelect(this);
+		}
 	}
 	
 	void OnMouseDrag() {
-		if (!(Input.touchCount == 2) && isSelected()) {
-			Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-			Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
-			transform.position = curPosition;
+		if (mc.itemsClickable) {
+			if (!(Input.touchCount == 2) && isSelected()) {
+				Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+				Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
+				transform.position = curPosition;
 
-			if(client) {
-				client.RpcMove(this.name, transform.position);
+				if (client) {
+					client.RpcMove(this.name, transform.position);
+				}
 			}
 		}
 	}

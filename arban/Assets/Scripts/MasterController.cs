@@ -8,10 +8,23 @@ public class MasterController : MonoBehaviour {
 	public ArrayList items = new ArrayList();
 	public bool isSurface;
 	NetworkClient client;
+	public DeleteModal deleteModal;
+	public bool itemsClickable = true;
 
 	public void DeleteSelected() {
 		items.Remove(selected);
 		Destroy (selected.gameObject);
+		closeDeleteModal();
+	}
+
+	public void showDeleteModal() {
+		itemsClickable = false;
+		deleteModal.show();
+	}
+
+	public void closeDeleteModal() {
+		itemsClickable = true;
+		deleteModal.hide();
 	}
 
 	public void toggleSelect(Item item) {
