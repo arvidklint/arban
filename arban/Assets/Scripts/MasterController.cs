@@ -4,36 +4,39 @@ using System.Collections.Generic;
 
 public class MasterController : MonoBehaviour {
 	
-	public GameObject selected;
+	public Item selected;
 	public ArrayList items = new ArrayList();
 	public bool isSurface;
 	NetworkClient client;
+	public DeleteModal deleteModal;
+	public bool itemsClickable = true;
 
 	public void DeleteSelected() {
-		Debug.Log ("Objekt i Items: ");
-		foreach (Item item in items) {
-			Debug.Log (item.GetInstanceID());
-		}
-		Debug.Log ("Tar bort: " + selected.GetInstanceID());
 		items.Remove(selected);
-		Debug.Log ("Objekt i Items: ");
-		foreach (Item item in items) {
-			Debug.Log (item.GetInstanceID());
-		}
-		Destroy (selected);
-		Debug.Log ("DeleteSelected");
+		Destroy (selected.gameObject);
+		closeDeleteModal();
 	}
 
-	public void toggleSelect(GameObject item) {
+	public void showDeleteModal() {
+		itemsClickable = false;
+		deleteModal.show();
+	}
+
+	public void closeDeleteModal() {
+		itemsClickable = true;
+		deleteModal.hide();
+	}
+
+	public void toggleSelect(Item item) {
 		if (item == selected) deselect(item); else select(item);
 	}
 
-	public void select(GameObject item) {
+	public void select(Item item) {
 		selected = item;
 		notifyObservers("select");
 	}
 
-	public void deselect(GameObject item) {
+	public void deselect(Item item) {
 		// Ska implementeras i framtiden när enstaka objekt kan avmarkeras. Tills vidare kör den DeselectAll. 
 		DeselectAll();
 	}
@@ -78,11 +81,13 @@ public class MasterController : MonoBehaviour {
 			// not so sure those will work:
 			selected.transform.rotation = desiredRotation;
 			selected.transform.position += Vector3.forward * pinchAmount;
-		}
+            if (client)
+            {
+                client.RpcRotate(selected.name, selected.transform.rotation);
+            }
+        }
 
-		if (client) {
-			client.RpcRotate(selected.name, selected.transform.rotation);
-		}
+		
 	}
 
 	public void SetClient(NetworkClient _client) {
