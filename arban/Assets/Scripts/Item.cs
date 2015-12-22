@@ -11,7 +11,9 @@ public class Item : MonoBehaviour {
 	Vector2 mouseDownPos;
 	bool mouseHasMoved;
 	Renderer rend;
-	Color transparent;
+	float alpha;
+	Color deselectedColor;
+	Color selectedColor;
 	NetworkClient client;
 
 	void Start() {
@@ -20,12 +22,16 @@ public class Item : MonoBehaviour {
 		rend = GetComponent<Renderer>();
 		Color c = rend.material.color;
 		if (mc.isSurface) {
-			transparent = new Color (0.35f, 0.84f, 0.86f, 0.4f);
+			alpha = 0.4f;
+			deselectedColor = new Color (0.35f, 0.84f, 0.86f, alpha);
 		} else {
-			transparent = new Color (c.r, c.g, c.b, c.a);
+			alpha = 1f;
+			deselectedColor = new Color (c.r, c.g, c.b, c.a);
 		}
-//		Debug.Log (transparent);
-		rend.material.SetColor("_Color", transparent);
+
+		selectedColor = new Color(0f, 0f, 1f, alpha);
+
+		markDeselected();
 	}
 	
 	void OnMouseDown() {
@@ -70,7 +76,7 @@ public class Item : MonoBehaviour {
 	}
 
 	void markSelected() {
-		setItemSelectionColor(Color.blue);
+		setItemSelectionColor(selectedColor);
 	}
 
 	public void SetClient(NetworkClient _client) {
@@ -84,11 +90,7 @@ public class Item : MonoBehaviour {
 	}
 
 	void markDeselected() {
-		setItemSelectionColor(Color.white);
-	}
-
-	void deselect() {
-		setItemSelectionColor(transparent);
+		setItemSelectionColor(deselectedColor);
 	}
 	
 	void setItemSelectionColor(Color c) {
