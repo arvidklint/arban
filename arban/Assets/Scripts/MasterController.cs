@@ -6,9 +6,11 @@ public class MasterController : MonoBehaviour {
 	
 	public Item selected;
 	public ArrayList items = new ArrayList();
+	public ArrayList buttons = new ArrayList();
 	public bool isSurface;
 	NetworkClient client;
 	public DeleteModal deleteModal;
+	public addItemsPanel addItemsPanel;
 	public bool itemsClickable = true;
 
 	public void DeleteSelected() {
@@ -18,8 +20,10 @@ public class MasterController : MonoBehaviour {
 	}
 
 	public void showDeleteModal() {
-		itemsClickable = false;
-		deleteModal.show();
+		if (somethingSelected()) {
+			itemsClickable = false;
+			deleteModal.show();
+		}
 	}
 
 	public void closeDeleteModal() {
@@ -44,6 +48,28 @@ public class MasterController : MonoBehaviour {
 	public void DeselectAll() {
 		selected = null;
 		notifyObservers("select");
+	}
+
+	public void showAddItemsPanel() {
+		toggleButtons(false);
+		addItemsPanel.show();
+	}
+
+	public void hideAddItemsPanel() {
+		addItemsPanel.hide();
+		toggleButtons(true);
+	}
+
+	public void toggleButtons(bool show) {
+		if (show) {
+			foreach (UIButton button in buttons) {
+				button.show();
+			}
+		} else {
+			foreach (UIButton button in buttons) {
+				button.hide();
+			}
+		}
 	}
 
 	public void addObserver(Item item) {
