@@ -18,12 +18,15 @@ public class Item : MonoBehaviour {
 	NetworkClient client;
 	bool collides;
 	Vector3 startPos;
+	int triggerCount;
 
 	void Start() {
+		triggerCount = 0;
 		collides = false;
 		mc = transform.parent.GetComponent<MasterController>();
 		mc.addObserver(this);
 		rend = GetComponent<Renderer>();
+
 		Color c = rend.material.color;
 		if (mc.isSurface) {
 			alpha = 0.4f;
@@ -117,17 +120,22 @@ public class Item : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		Debug.Log("Collision");
+		Debug.Log("Enter");
+		triggerCount++;
 		collides = true;
 		SetRedMaterial();
 	}
 
 	void OnTriggerExit(Collider col) {
-		collides = false;
-		if (isSelected()) {
-			markSelected ();
-		} else {
-			markDeselected();
+		Debug.Log("Exit");
+		triggerCount--;
+		if (triggerCount == 0) {
+			collides = false;
+			if (isSelected()) {
+				markSelected ();
+			} else {
+				markDeselected();
+			}
 		}
 	}
 }
