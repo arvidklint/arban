@@ -42,7 +42,7 @@ public class Item : MonoBehaviour {
 
 	void OnMouseUp() {
 		mouseHasMoved = mc.compareMousePositions(mouseDownPos, new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-		if (!mouseHasMoved) mc.toggleSelect(gameObject);
+		if (!mouseHasMoved) mc.toggleSelect(this);
 	}
 	
 	void OnMouseDrag() {
@@ -64,7 +64,7 @@ public class Item : MonoBehaviour {
 	}
 
 	public bool isSelected() {
-		return (gameObject == mc.selected);
+		return (this == mc.selected);
 	}
 
 	void updateSelectionStatus() {

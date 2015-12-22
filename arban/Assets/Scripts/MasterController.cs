@@ -4,36 +4,26 @@ using System.Collections.Generic;
 
 public class MasterController : MonoBehaviour {
 	
-	public GameObject selected;
+	public Item selected;
 	public ArrayList items = new ArrayList();
 	public bool isSurface;
 	NetworkClient client;
 
 	public void DeleteSelected() {
-		Debug.Log ("Objekt i Items: ");
-		foreach (Item item in items) {
-			Debug.Log (item.GetInstanceID());
-		}
-		Debug.Log ("Tar bort: " + selected.GetInstanceID());
 		items.Remove(selected);
-		Debug.Log ("Objekt i Items: ");
-		foreach (Item item in items) {
-			Debug.Log (item.GetInstanceID());
-		}
-		Destroy (selected);
-		Debug.Log ("DeleteSelected");
+		Destroy (selected.gameObject);
 	}
 
-	public void toggleSelect(GameObject item) {
+	public void toggleSelect(Item item) {
 		if (item == selected) deselect(item); else select(item);
 	}
 
-	public void select(GameObject item) {
+	public void select(Item item) {
 		selected = item;
 		notifyObservers("select");
 	}
 
-	public void deselect(GameObject item) {
+	public void deselect(Item item) {
 		// Ska implementeras i framtiden när enstaka objekt kan avmarkeras. Tills vidare kör den DeselectAll. 
 		DeselectAll();
 	}
