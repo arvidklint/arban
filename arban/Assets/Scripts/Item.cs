@@ -83,6 +83,12 @@ public class Item : MonoBehaviour {
 		client = _client;
 	}
 
+	public void setRedMaterial() {
+		Color c = rend.material.color;
+		Color red = new Color(244f / 255f, 63f / 255f, 74f / 255f, c.a);
+		rend.material.SetColor("_Color", red);
+	}
+
 	void markDeselected() {
 		setItemSelectionColor(deselectedColor);
 	}
