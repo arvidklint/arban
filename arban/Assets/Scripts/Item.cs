@@ -14,9 +14,13 @@ public class Item : MonoBehaviour {
 	float alpha;
 	Color deselectedColor;
 	Color selectedColor;
+	Color noPlaceColor;
 	NetworkClient client;
+	bool collides;
+	Vector3 startPos;
 
 	void Start() {
+		collides = false;
 		mc = transform.parent.GetComponent<MasterController>();
 		mc.addObserver(this);
 		rend = GetComponent<Renderer>();
@@ -30,6 +34,7 @@ public class Item : MonoBehaviour {
 		}
 
 		selectedColor = new Color(0f, 0f, 1f, alpha);
+		noPlaceColor = new Color(1f, 0f, 0f, alpha);
 
 		markDeselected();
 	}
@@ -39,6 +44,7 @@ public class Item : MonoBehaviour {
 			mouseDownPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 			screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 			offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+			startPos = transform.position;
 		}
 	}
 
@@ -46,6 +52,15 @@ public class Item : MonoBehaviour {
 		if (mc.itemsClickable) {
 			mouseHasMoved = mc.compareMousePositions(mouseDownPos, new Vector2(Input.mousePosition.x, Input.mousePosition.y));
 			if (!mouseHasMoved) mc.toggleSelect(this);
+
+			// Reset the position if the object collides
+			if (collides) {
+				transform.position = startPos;
+
+				if (client) {
+					client.RpcMove(this.name, transform.position);
+				}
+			}
 		}
 	}
 	
@@ -89,10 +104,8 @@ public class Item : MonoBehaviour {
 		client = _client;
 	}
 
-	public void setRedMaterial() {
-		Color c = rend.material.color;
-		Color red = new Color(244f / 255f, 63f / 255f, 74f / 255f, c.a);
-		rend.material.SetColor("_Color", red);
+	public void SetRedMaterial() {
+		rend.material.SetColor("_Color", noPlaceColor);
 	}
 
 	void markDeselected() {
@@ -101,5 +114,20 @@ public class Item : MonoBehaviour {
 	
 	void setItemSelectionColor(Color c) {
 		rend.material.SetColor ("_Color", c);
+	}
+
+	void OnTriggerEnter(Collider col) {
+		Debug.Log("Collision");
+		collides = true;
+		SetRedMaterial();
+	}
+
+	void OnTriggerExit(Collider col) {
+		collides = false;
+		if (isSelected()) {
+			markSelected ();
+		} else {
+			markDeselected();
+		}
 	}
 }

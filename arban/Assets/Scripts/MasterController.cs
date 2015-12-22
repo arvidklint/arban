@@ -81,11 +81,13 @@ public class MasterController : MonoBehaviour {
 			// not so sure those will work:
 			selected.transform.rotation = desiredRotation;
 			selected.transform.position += Vector3.forward * pinchAmount;
-		}
+            if (client)
+            {
+                client.RpcRotate(selected.name, selected.transform.rotation);
+            }
+        }
 
-		if (client) {
-			client.RpcRotate(selected.name, selected.transform.rotation);
-		}
+		
 	}
 
 	public void SetClient(NetworkClient _client) {
