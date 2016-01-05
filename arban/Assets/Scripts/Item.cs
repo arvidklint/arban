@@ -112,22 +112,29 @@ public class Item : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col) {
-		Debug.Log("Enter");
-		triggerCount++;
-		collides = true;
-		SetRedMaterial();
+		if (!oldItem) {
+			Debug.Log("Enter");
+			triggerCount++;
+			collides = true;
+			SetRedMaterial();
+		}
 	}
 
 	void OnTriggerExit(Collider col) {
-		Debug.Log("Exit");
-		triggerCount--;
-		if (triggerCount == 0) {
-			collides = false;
-			if (isSelected()) {
-				markSelected ();
-			} else {
-				markDeselected();
+		if (!oldItem) {
+			Debug.Log("Exit");
+			triggerCount--;
+			if (triggerCount == 0) {
+				collides = false;
+				if (isSelected()) {
+					markSelected ();
+				} else {
+					markDeselected();
+				}
 			}
+		}
+		if (triggerCount < 0) {
+			triggerCount = 0;
 		}
 	}
 }
