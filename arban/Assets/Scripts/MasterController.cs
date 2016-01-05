@@ -126,10 +126,7 @@ public class MasterController : MonoBehaviour {
 	}
 
 	public void addItem(string name) {
-		GameObject prefab;
-
-		if (name == "skyscraper1") prefab = prefabs.skyscraper1;
-		else return;
+		GameObject prefab = prefabs.getPrefab(name);
 
 		GameObject newItem = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
 		newItemNumber ++;
@@ -139,4 +136,6 @@ public class MasterController : MonoBehaviour {
 		if (client) client.RpcAddToViewer(newItem.name); // also add the item to connected viewer clients
 
 	}
+
+
 }
