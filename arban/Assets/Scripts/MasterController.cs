@@ -12,10 +12,13 @@ public class MasterController : MonoBehaviour {
 	public DeleteModal deleteModal;
 	public addItemsPanel addItemsPanel;
 	public bool itemsClickable = true;
+	string destroyedName;
 
 	public void DeleteSelected() {
 		items.Remove(selected);
-		Destroy (selected.gameObject);
+		destroyedName = selected.gameObject.name;
+		Destroy(selected.gameObject);
+		if (client) client.RpcDelete(destroyedName);
 		closeDeleteModal();
 	}
 
@@ -87,7 +90,7 @@ public class MasterController : MonoBehaviour {
 	}
 
 	public bool compareMousePositions(Vector2 pos1, Vector2 pos2) {
-		return ((pos1[0] == pos2[0]) && (pos1[1] == pos2[1])) ? false : true;
+		return ((pos1[0] == pos2[0]) && (pos1[1] == pos2[1]));
 	}
 	
 	void LateUpdate() {
