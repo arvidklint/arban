@@ -29,14 +29,11 @@ public class Item : MonoBehaviour {
 		rend = GetComponent<Renderer>();
 
 		Color c = rend.material.color;
-		if (mc.isSurface) {
-			alpha = 0.4f;
-			deselectedColor = new Color (0.35f, 0.84f, 0.86f, alpha);
-		} else {
-			alpha = 1f;
-			deselectedColor = new Color (c.r, c.g, c.b, c.a);
-		}
 
+		if (mc.isSurface) alpha = 0.4f;
+		else alpha = 1f;
+
+		deselectedColor = new Color (c.r, c.g, c.b, alpha);
 		selectedColor = new Color(0f, 0f, 1f, alpha);
 		noPlaceColor = new Color(1f, 0f, 0f, alpha);
 
@@ -66,7 +63,7 @@ public class Item : MonoBehaviour {
 	}
 	
 	void OnMouseDrag() {
-		if (mc.itemsClickable) {
+		if (mc.itemsClickable && !oldItem) {
 			if (!(Input.touchCount == 2) && isSelected()) {
 				Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 				Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;

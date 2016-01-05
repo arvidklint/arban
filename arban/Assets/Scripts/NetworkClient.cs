@@ -50,8 +50,8 @@ public class NetworkClient : NetworkBehaviour {
 	}
 
 	void FindMe() {
-		Item[] items;
-		items = parent.GetComponentsInChildren<Item>();
+		Item[] items = parent.GetComponentsInChildren<Item>();
+
 		foreach (Item item in items) {
 			item.SetClient(this);
 		}
@@ -79,12 +79,13 @@ public class NetworkClient : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	public void RpcAdd(GameObject item) {
-		// 
+	public void RpcDelete(string name) {
+		Destroy(GameObject.Find(name));
 	}
 
 	[ClientRpc]
-	public void RpcDelete(string name) {
-		Destroy(GameObject.Find(name));
+	public void RpcAddToViewer(string newItemName) {
+		GameObject newItem = Instantiate(GameObject.Find(newItemName), new Vector3(0, 0, 0), Quaternion.identity) as GameObject; 
+		newItem.transform.parent = GameObject.Find("CityViewer").transform;
 	}
 }
