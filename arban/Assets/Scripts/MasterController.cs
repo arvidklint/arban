@@ -13,6 +13,8 @@ public class MasterController : MonoBehaviour {
 	public addItemsPanel addItemsPanel;
 	public bool itemsClickable = true;
 	string destroyedName;
+	public Prefabs prefabs;
+	int newItemNumber = 0;
 
 	public void DeleteSelected() {
 		items.Remove(selected);
@@ -121,5 +123,20 @@ public class MasterController : MonoBehaviour {
 
 	public void SetClient(NetworkClient _client) {
 		client = _client;
+	}
+
+	public void addItem(string name) {
+		GameObject prefab;
+
+		if (name == "skyscraper1") prefab = prefabs.skyscraper1;
+		else return;
+
+		GameObject newItem = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+		newItemNumber ++;
+		newItem.name = "new" + newItemNumber.ToString();
+		newItem.transform.parent = GameObject.Find("CitySurface").transform; // add the new item as a child to CitySurface 
+
+		if (client) client.RpcAddToViewer(newItem.name); // also add the item to connected viewer clients
+
 	}
 }
