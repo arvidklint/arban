@@ -21,6 +21,7 @@ public class MasterController : MonoBehaviour {
 		destroyedName = selected.gameObject.name;
 		Destroy(selected.gameObject);
 		if (client) client.RpcDelete(destroyedName);
+		DeselectAll();
 		closeDeleteModal();
 	}
 
@@ -84,6 +85,10 @@ public class MasterController : MonoBehaviour {
 	public void notifyObservers(string msg) {
 		foreach (Item item in items) {
 			item.updateSelf(msg);
+		}
+
+		foreach (UIButton button in buttons) {
+			button.updateSelf(msg);
 		}
 	}
 
