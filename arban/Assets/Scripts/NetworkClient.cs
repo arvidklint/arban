@@ -77,4 +77,14 @@ public class NetworkClient : NetworkBehaviour {
 	public void RpcRotate(string name, Quaternion _rotation) {
 		GameObject.Find(name).transform.rotation = _rotation;
 	}
+
+	[ClientRpc]
+	public void RpcAdd(GameObject item) {
+		// 
+	}
+
+	[ClientRpc]
+	public void RpcDelete(string name) {
+		Destroy(GameObject.Find(name));
+	}
 }
