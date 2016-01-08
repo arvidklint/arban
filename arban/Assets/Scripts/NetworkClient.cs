@@ -74,7 +74,7 @@ public class NetworkClient : NetworkBehaviour {
 	
 	[ClientRpc]
 	public void RpcMove(string name, Vector3 _position) {
-		//Debug.Log ("Rpc Move " + name);
+		Debug.Log ("Rpc Move " + name);
 		if (!isSurface) {
 			_position *= surfaceScale;
 			_position.x *= -1f;

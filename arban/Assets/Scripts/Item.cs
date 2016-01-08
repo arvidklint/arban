@@ -122,7 +122,7 @@ public class Item : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col) {
 		if (!oldItem) {
-			Debug.Log("Enter");
+//			Debug.Log("Enter");
 			triggerCount++;
 			collides = true;
 			SetRedMaterial();
@@ -131,7 +131,7 @@ public class Item : MonoBehaviour {
 
 	void OnTriggerExit(Collider col) {
 		if (!oldItem) {
-			Debug.Log("Exit");
+//			Debug.Log("Exit");
 			triggerCount--;
 			if (triggerCount == 0) {
 				collides = false;
