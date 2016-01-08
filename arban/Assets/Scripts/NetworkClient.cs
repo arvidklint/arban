@@ -9,16 +9,24 @@ public class NetworkClient : NetworkBehaviour {
 	public GameObject parent;
 	GameObject city;
 	bool isSurface;
-	
-	NetworkClient client;
+    public Prefabs prefabs;
+    float surfaceScale = 50f;
+    Vector3 stdPosition;
+    string viewerName = "CityViewer";
+    string surfaceName = "CitySurface";
+
+    NetworkClient client;
 
 	void Start() {
+
 		isSurface = (Application.loadedLevelName == "Surface");
 
-		Debug.Log ("Start");
+        Debug.Log ("Start");
 
-		// Find parent
-		if (isSurface) {
+        stdPosition = new Vector3(2f * -1f, 0f, -4f * -1f) * surfaceScale;
+
+        // Find parent
+        if (isSurface) {
 			parent = (GameObject)GameObject.Find ("CitySurface");
 			if (parent == null) {
 				Debug.LogError ("Could not find parent Map!");
@@ -66,7 +74,7 @@ public class NetworkClient : NetworkBehaviour {
 	public void RpcMove(string name, Vector3 _position) {
 		//Debug.Log ("Rpc Move " + name);
 		if (!isSurface) {
-			_position *= 50f;
+			_position *= surfaceScale;
 			_position.x *= -1f;
 			_position.z *= -1f;
 		}
@@ -84,8 +92,14 @@ public class NetworkClient : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	public void RpcAddToViewer(string newItemName, Vector3 position) {
-		GameObject newItem = Instantiate(GameObject.Find(newItemName), position, Quaternion.identity) as GameObject; 
-		newItem.transform.parent = GameObject.Find("CityViewer").transform;
-	}
+	public void RpcAddToViewer(string prefabName, string newItemName) {
+        if (!isSurface) {
+            GameObject prefab = prefabs.getPrefab(prefabName);
+
+            GameObject newItem = Instantiate(prefab, stdPosition, Quaternion.identity) as GameObject;
+
+            newItem.name = newItemName;
+            newItem.transform.parent = GameObject.Find(viewerName).transform; // add the new item as a child to CitySurface
+        }
+    }
 }

@@ -15,7 +15,9 @@ public class MasterController : MonoBehaviour {
 	string destroyedName;
 	public Prefabs prefabs;
 	int newItemNumber = 0;
-	Vector3 stdPosition = new Vector3(2f, 0f, -5f);
+	Vector3 stdPosition = new Vector3(2f, 0f, -4f);
+    string surfaceName = "CitySurface";
+    string viewerName = "CityViewer";
 
 	public void DeleteSelected() {
 		items.Remove(selected);
@@ -131,17 +133,16 @@ public class MasterController : MonoBehaviour {
 		client = _client;
 	}
 
-	public void addItem(string name) {
-		GameObject prefab = prefabs.getPrefab(name);
+	public void addItem(string prefabName) {
+        GameObject prefab = prefabs.getPrefab(prefabName);
+        GameObject newItem = Instantiate(prefab, stdPosition, Quaternion.identity) as GameObject;
 
-		GameObject newItem = Instantiate(prefab, stdPosition, Quaternion.identity) as GameObject;
-		newItemNumber ++;
-		newItem.name = "new" + newItemNumber.ToString();
-		newItem.transform.parent = GameObject.Find("CitySurface").transform; // add the new item as a child to CitySurface 
+        newItemNumber++;
+        string newItemName = "new" + newItemNumber.ToString();
+        newItem.name = newItemName;
 
-		if (client) client.RpcAddToViewer(newItem.name, stdPosition); // also add the item to connected viewer clients
+        newItem.transform.parent = GameObject.Find(surfaceName).transform; // add the new item as a child to CitySurface
 
+        if (client) client.RpcAddToViewer(prefabName, newItemName);
 	}
-
-
 }
