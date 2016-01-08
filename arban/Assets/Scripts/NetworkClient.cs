@@ -84,8 +84,8 @@ public class NetworkClient : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	public void RpcAddToViewer(string newItemName) {
-		GameObject newItem = Instantiate(GameObject.Find(newItemName), new Vector3(0, 0, 0), Quaternion.identity) as GameObject; 
+	public void RpcAddToViewer(string newItemName, Vector3 position) {
+		GameObject newItem = Instantiate(GameObject.Find(newItemName), position, Quaternion.identity) as GameObject; 
 		newItem.transform.parent = GameObject.Find("CityViewer").transform;
 	}
 }
