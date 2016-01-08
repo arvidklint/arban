@@ -87,6 +87,7 @@ public class NetworkClient : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcRotate(string name, Quaternion _rotation) {
+        Debug.Log("rotating " + name);
 		if (isSurface) {
 			Transform t = GameObject.Find ("/Map/" + surfaceName + "/" + name).transform;
 			t.rotation = _rotation;
