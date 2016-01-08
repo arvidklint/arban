@@ -66,7 +66,7 @@ public class Item : MonoBehaviour {
 			// Reset the position if the object collides
 			if (collides) {
 				transform.position = startPos;
-				if (client) client.RpcMove(this.name, transform.position);
+				if (client) client.RpcMove(gameObject.name, transform.position);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ public class Item : MonoBehaviour {
 				Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 				Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
 				transform.position = curPosition;
-				if (client) client.RpcMove(this.name, transform.position);
+				if (client) client.RpcMove(gameObject.name, transform.position);
 			}
 		}
 	}

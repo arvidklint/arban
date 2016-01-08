@@ -85,7 +85,14 @@ public class NetworkClient : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcRotate(string name, Quaternion _rotation) {
-		GameObject.Find(name).transform.rotation = _rotation;
+		Transform t = GameObject.Find (name).transform;
+
+		if (!isSurface) {
+			t.rotation = new Quaternion (_rotation.x, _rotation.y + 180f, _rotation.z, _rotation.w);
+		} else {
+			t.rotation = _rotation;
+		}
+	
 	}
 
 	[ClientRpc]
@@ -99,6 +106,9 @@ public class NetworkClient : NetworkBehaviour {
             GameObject prefab = prefabs.getPrefab(prefabName);
 
             GameObject newItem = Instantiate(prefab, stdPosition, Quaternion.identity) as GameObject;
+
+			newItem.transform.localScale *= surfaceScale;
+			newItem.transform.Rotate(0f, 180f, 0f);
 
             newItem.name = newItemName;
             newItem.transform.parent = GameObject.Find(viewerName).transform; // add the new item as a child to CitySurface
