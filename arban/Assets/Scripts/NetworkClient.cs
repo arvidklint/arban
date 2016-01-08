@@ -85,12 +85,12 @@ public class NetworkClient : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcRotate(string name, Quaternion _rotation) {
-		Transform t = GameObject.Find (name).transform;
-
-		if (!isSurface) {
-			t.rotation = new Quaternion (_rotation.x, _rotation.y + 180f, _rotation.z, _rotation.w);
-		} else {
+		if (isSurface) {
+			Transform t = GameObject.Find ("/Map/CitySurface/" + name).transform;
 			t.rotation = _rotation;
+		} else {
+			Transform t = GameObject.Find ("/ImageTarget/CityViewer/" + name).transform;
+			t.rotation = new Quaternion (_rotation.x, _rotation.y + 180f, _rotation.z, _rotation.w);
 		}
 	
 	}
