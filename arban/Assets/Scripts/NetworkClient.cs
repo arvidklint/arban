@@ -42,6 +42,8 @@ public class NetworkClient : NetworkBehaviour {
 			FindMe();
 		}
 
+		prefabs = (Prefabs)GameObject.Find ("PrefabStorage").GetComponent<Prefabs> ();
+
 		
 
 //		if (isSurface) {
