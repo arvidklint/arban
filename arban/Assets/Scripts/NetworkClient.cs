@@ -112,10 +112,10 @@ public class NetworkClient : NetworkBehaviour {
 			newItem.transform.localScale *= surfaceScale;
 			newItem.transform.Rotate(0f, 180f, 0f);
 
-            newItem.GetComponent<Item>().SetClient(this);
-
             newItem.name = newItemName;
             newItem.transform.parent = GameObject.Find(viewerName).transform; // add the new item as a child to CitySurface
+			Debug.Log(this);
+			newItem.GetComponent<Item>().SetClient(this);
         }
     }
 }
