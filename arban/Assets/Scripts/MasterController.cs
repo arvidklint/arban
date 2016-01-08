@@ -115,15 +115,17 @@ public class MasterController : MonoBehaviour {
 				Vector3 rotationDeg = Vector3.zero;
 				rotationDeg.z = DetectTouchMovement.turnAngleDelta;
 				desiredRotation *= Quaternion.Euler(rotationDeg*2);
-			}
-			
-			// not so sure those will work:
-			selected.transform.rotation = desiredRotation;
-			selected.transform.position += Vector3.forward * pinchAmount;
-            if (client)
-            {
-                client.RpcRotate(selected.name, selected.transform.rotation);
+                // not so sure those will work:
+                selected.transform.rotation = desiredRotation;
+                selected.transform.position += Vector3.forward * pinchAmount;
+                if (client)
+                {
+                    Debug.Log(selected.name);
+                    client.RpcRotate(selected.name, selected.transform.rotation);
+                }
             }
+			
+			
         }
 
 		
