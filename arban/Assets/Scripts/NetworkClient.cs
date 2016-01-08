@@ -93,9 +93,11 @@ public class NetworkClient : NetworkBehaviour {
 			t.rotation = _rotation;
 		} else {
 			Transform t = GameObject.Find ("/ImageTarget/" + viewerName + "/" + name).transform;
-			t.rotation = new Quaternion (_rotation.x, _rotation.y + 180f, _rotation.z, _rotation.w);
+			Debug.Log (t);
+//			t.rotation = new Quaternion (_rotation.x, _rotation.y + 180f, _rotation.z, _rotation.w);
+			t.rotation = _rotation;
+			t.Rotate (0f, 180f, 0f);
 		}
-	
 	}
 
 	[ClientRpc]
