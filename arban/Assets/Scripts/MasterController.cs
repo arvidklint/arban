@@ -110,10 +110,10 @@ public class MasterController : MonoBehaviour {
 			
 			DetectTouchMovement.Calculate();
 			
-			if (Mathf.Abs(DetectTouchMovement.turnAngleDelta) > 0) { // rotate
+			if (Mathf.Abs(DetectTouchMovement.turnAngleDelta) > 0 && !selected.oldItem) { // rotate
 				Debug.Log("Is rotating");
 				Vector3 rotationDeg = Vector3.zero;
-				rotationDeg.y = DetectTouchMovement.turnAngleDelta;
+				rotationDeg.y = 180 - DetectTouchMovement.turnAngleDelta;
 				desiredRotation *= Quaternion.Euler(rotationDeg*2);
                 // not so sure those will work:
                 selected.transform.rotation = desiredRotation;
