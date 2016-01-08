@@ -75,21 +75,23 @@ public class NetworkClient : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcMove(string name, Vector3 _position) {
 		Debug.Log ("Rpc Move " + name);
-		if (!isSurface) {
+		if (isSurface) {
+			GameObject.Find("/Map/" + surfaceName + "/" + name).transform.position = _position;
+		} else {
 			_position *= surfaceScale;
 			_position.x *= -1f;
 			_position.z *= -1f;
+			GameObject.Find("/ImageTarget/" + viewerName + "/" + name).transform.position = _position;
 		}
-		GameObject.Find(name).transform.position = _position;
 	}
 
 	[ClientRpc]
 	public void RpcRotate(string name, Quaternion _rotation) {
 		if (isSurface) {
-			Transform t = GameObject.Find ("/Map/CitySurface/" + name).transform;
+			Transform t = GameObject.Find ("/Map/" + surfaceName + "/" + name).transform;
 			t.rotation = _rotation;
 		} else {
-			Transform t = GameObject.Find ("/ImageTarget/CityViewer/" + name).transform;
+			Transform t = GameObject.Find ("/ImageTarget/" + viewerName + "/" + name).transform;
 			t.rotation = new Quaternion (_rotation.x, _rotation.y + 180f, _rotation.z, _rotation.w);
 		}
 	
