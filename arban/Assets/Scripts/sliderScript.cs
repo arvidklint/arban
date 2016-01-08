@@ -15,6 +15,7 @@ public class sliderScript : MonoBehaviour {
 		});
 		dirLight = GameObject.Find ("Directional Light");
 		sunAngle = dirLight.GetComponent<Light> ().transform.eulerAngles.x;
+		hide();
 		//Debug.Log (sunAngle);
 	}
 	
@@ -23,4 +24,18 @@ public class sliderScript : MonoBehaviour {
 		float sunX = -0.007237f*(sunY*sunY)+58.62f;
 		dirLight.GetComponent<Light> ().transform.eulerAngles = new Vector3 (sunX, sunY, dirLight.GetComponent<Light> ().transform.eulerAngles.z);
 	}
+
+	public void show() {
+		gameObject.SetActive(true);
+	}
+
+	public void hide() {
+		gameObject.SetActive(false);
+	}
+
+	public void toggleVisibility() {
+		if (gameObject.activeSelf) hide();
+		else show();
+	}
+
 }
