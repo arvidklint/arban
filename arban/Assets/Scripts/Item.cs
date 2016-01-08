@@ -28,6 +28,13 @@ public class Item : MonoBehaviour {
 		mc.addObserver(this);
 		rend = GetComponent<Renderer>();
 
+		if (!oldItem && mc.isSurface) {
+			string materialName = rend.sharedMaterial.name;
+			MaterialStorage materialStorage = (MaterialStorage)GameObject.Find ("MaterialStorage").GetComponent<MaterialStorage> ();
+			Material newMaterial = materialStorage.GetMaterial (materialName + "_transparent");
+			rend.material = newMaterial;
+		}
+
 		Color c = rend.material.color;
 
 		if (mc.isSurface) alpha = 0.4f;
@@ -36,6 +43,8 @@ public class Item : MonoBehaviour {
 		deselectedColor = new Color (c.r, c.g, c.b, alpha);
 		selectedColor = new Color(0f, 0f, 1f, alpha);
 		noPlaceColor = new Color(1f, 0f, 0f, alpha);
+
+
 
 		markDeselected();
 	}
