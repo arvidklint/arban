@@ -145,6 +145,11 @@ public class MasterController : MonoBehaviour {
 
         newItem.transform.parent = GameObject.Find(surfaceName).transform; // add the new item as a child to CitySurface
 
-        if (client) client.RpcAddToViewer(prefabName, newItemName);
+        if (client)
+        {
+            newItem.GetComponent<Item>().SetClient(client);
+            client.RpcAddToViewer(prefabName, newItemName);
+        }
+
 	}
 }
