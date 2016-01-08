@@ -77,7 +77,12 @@ public class Item : MonoBehaviour {
 				Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 				Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
 				transform.position = curPosition;
-				if (client) client.RpcMove(gameObject.name, transform.position);
+                Debug.Log(client);
+                if (client)
+                {
+                    Debug.Log("rpc move");
+                    client.RpcMove(gameObject.name, transform.position);
+                }
 			}
 		}
 	}
